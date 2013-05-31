@@ -14,7 +14,7 @@ Protodex.Data.prototype = {
 	/*!\brief	imports CSV text into data
 	 * \param	text		CSV text
 	 */
-	csvImport: function(text)
+	importCsv: function(text)
 	{
 		this.data = $.csv.toObjects(text);
 	},
