@@ -11,9 +11,8 @@ Protodex.Data = function(text)
 Protodex.Data.prototype = {
 	data:		null,
 
-	/*!\brief	converts CSV text to an array of objects
+	/*!\brief	imports CSV text into data
 	 * \param	text		CSV text
-	 * \return	array of objects
 	 */
 	csvImport: function(text)
 	{
@@ -31,7 +30,7 @@ Protodex.Data.prototype = {
 	},
 
 	/*!\brief	trims the data to just the specified fields
-	 * \param	data		array of objects
+	 * \param	fields		array of fields to keep
 	 */
 	trim: function(fields)
 	{
@@ -39,9 +38,10 @@ Protodex.Data.prototype = {
 	},
 
 	/*!\brief	case-insensitive, in-place sorting of data
-	 * \param	data		array of objects
-	 * \param	sort		sort field
-	 * \param	dir		sort direction (default ascending)
+	 * \param	sort		sort field (string)
+	 * \param	dir		sort direction
+	 *					'ASC': ascending (default)
+	 *					'DSC': descending
 	 */
 	sort: function(sort, dir)
 	{
