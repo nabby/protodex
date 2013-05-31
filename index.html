@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>protodex</title>
+<link rel="stylesheet" type="text/css" href="css/protodex.css">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.csv-0.71.js"></script>
+<script type="text/javascript" src="js/protodex.js"></script>
+<script type="text/javascript" src="js/protodex.data.js"></script>
+<script type="text/javascript" src="js/protodex.ui.js"></script>
+<script type="text/javascript">
+$().ready(function() {
+});
+
+// bindings
+$(document).on('submit', '#import form', function(e) {
+	e.preventDefault();
+
+	var csvText = $(e.currentTarget).find('[name=csv]').val();
+	console.log('RAW INPUT', csvText);
+	
+	var data = protodex.csvToData(csvText);
+	console.log('OBJECT DATA', data);
+});
+
+
+</script>
+</head>
+<body class="init">
+
+<h1>protodex</h1>
+
+<div id="import">
+	<form>
+	<textarea name="csv" rows="20" cols="60"></textarea>
+	<br>
+	<input type="submit" value="import">
+	</form>
+</div>
+
+<div id="display">
+</div>
+
+</body>
+</html>

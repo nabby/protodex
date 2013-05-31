@@ -1,0 +1,14 @@
+PROTODEX
+--------------------------------
+
+JavaScript exercise to create a simple address book prototype. Imports CSV files and displays in a sortable table. 
+
+Requires:
+
+    * jQuery 1.8
+    * jquery-csv (https://code.google.com/p/jquery-csv/)
+
+
+###
+
+PhotoShelter, Inc. * http://photoshelter.com
