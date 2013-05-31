@@ -4,9 +4,9 @@
 <link rel="stylesheet" type="text/css" href="css/protodex.css">
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery.csv-0.71.js"></script>
-<script type="text/javascript" src="js/protodex.js"></script>
-<script type="text/javascript" src="js/protodex.data.js"></script>
-<script type="text/javascript" src="js/protodex.ui.js"></script>
+<script type="text/javascript" src="js/Protodex.js"></script>
+<script type="text/javascript" src="js/Protodex.Data.js"></script>
+<script type="text/javascript" src="js/Protodex.UI.js"></script>
 <script type="text/javascript">
 $().ready(function() {
 });
@@ -15,11 +15,13 @@ $().ready(function() {
 $(document).on('submit', '#import form', function(e) {
 	e.preventDefault();
 
+	// grab the CSV input
 	var csvText = $(e.currentTarget).find('[name=csv]').val();
 	console.log('RAW INPUT', csvText);
-	
-	var data = protodex.csvToData(csvText);
-	console.log('OBJECT DATA', data);
+
+	// create a Protodex.Data object
+	var pd = new Protodex.Data(csvText);
+	console.log('DATA', pd);
 });
 
 

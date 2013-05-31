@@ -1,2 +1,2 @@
 // create namespace
-var protodex = {}
+var Protodex = {}
