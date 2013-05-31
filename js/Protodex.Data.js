@@ -2,7 +2,7 @@
 Protodex.Data = function(text) 
 {
 	if (text)
-		this.csvImport(text);
+		this.importCsv(text);
 	else
 		this.data = [];
 };
