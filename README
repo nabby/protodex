@@ -1,7 +1,7 @@
 PROTODEX
 --------------------------------
 
-JavaScript exercise to create a simple address book prototype. Imports CSV files and displays in a sortable table. 
+JavaScript exercise to create a simple address book interface. Takes CSV text input and displays in a sortable table. 
 
 Requires:
 
