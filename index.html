@@ -26,6 +26,21 @@ $(document).on('submit', '#import form', function(e) {
 	// create a Protodex.Data object
 	var pd = new Protodex.Data(csvText);
 	console.log('DATA', pd);
+
+    // find all fields
+    console.log('FIELDS', pd.getFields());
+
+    // trim down to fname and lname
+    pd.trim(["fname", "lname"]);
+    console.log('TRIMMED', pd);
+    console.log('TRIMMED FIELDS', pd.getFields());
+
+    // sort by lname in (default) ascending order
+    console.log('SORTED BY LNAME ASC', pd.sortData("lname"));
+
+    // sort by fname in descending order
+    console.log('SORTED BY FNAME DSC', pd.sortData("fname", "DSC"));
+
 });
 */
 
