@@ -89,13 +89,13 @@ Protodex.UI.prototype = {
 		var str = '';
         for (var i=0; i<data.length; i++) {
             str += '<tr>';
-            for (var k; k<fields.length; k++) {
-                str += '<td>' + data[i][k] + '</td>';
+            for (var k=0; k<fields.length; k++) {
+                str += '<td>' + data[i][fields[k]] + '</td>';
             }
             str += '</tr>';
         }
 
-        $thead.html(str);
+        $tbody.html(str);
 	},
 	
 	switchMode: function (idx)
