@@ -26,7 +26,8 @@ Protodex.Data.prototype = {
 	 * \return	array of field names
 	 */
 	getFields: function()
-	{   var fields = []
+	{
+        var fields = [];
         for(var f in this.data[0]) fields.push(f);
         return fields;
 	},
@@ -35,8 +36,9 @@ Protodex.Data.prototype = {
 	 * \param	fieldsToKeep		array of fields to keep
 	 */
 	trim: function(fieldsToKeep)
-	{   var fields = this.getFields();
-        var fieldsToDelete = fields.filter(function (f) {   //diff btwn all fields and fields to keep are fields to delete
+	{
+        var fields = this.getFields();
+        var fieldsToDelete = fields.filter(function (f) {   // diff btwn all fields and fields to keep are fields to delete
                 return fieldsToKeep.indexOf(f) == -1;
             });
         for(var i=0, l=this.data.length; i<l; i++) {
@@ -52,30 +54,31 @@ Protodex.Data.prototype = {
 	 *					'ASC': ascending (default)
 	 *					'DSC': descending
 	 */
-	sortData: function(sort, dir)               //method name changed to sortData to avoid collision with sort
-	{   var order = dir === 'DSC' ? -1 : 1;    //flip order if dir is DSC
-        var by = function (sort) {
-            return function (o, p) {
-                var a, b;
-                if (typeof o === 'object' && typeof p === 'object' && o && p) {
-                    a = o[sort];
-                    b = p[sort];
-                    if (a === b) {
-                        return 0;
-                    }
-                    if (typeof a === typeof b) {
-                        return (a < b ? -1 : 1) * order;
-                    }
-                    return (typeof a < typeof b ? -1 : 1) * order;
-                } else {
-                    throw {
-                        name: 'Error',
-                        message: 'Expected an object when sorting by ' + sort
-                    };
-                }
-            };
-        };
 
-        return this.data.sort(by(sort));
+    _sortDataCB: function(sort, dir)     // callback function for sort method
+    {
+        var order = dir === 'DSC' ? -1 : 1;
+        return function (o, p) {
+            var a, b;
+            if (typeof o === 'object' && typeof p === 'object' && o && p) {
+                a = o[sort].toLowerCase();
+                b = p[sort].toLowerCase();
+                if (a === b) {
+                    return 0;
+                } else {
+                    return (a < b ? -1 : 1) * order;
+                }
+            } else {
+                throw {
+                    name: 'Error',
+                    message: 'Expected an object when sorting by ' + sort
+                };
+            }
+        };
+    },
+
+    sortData: function(sort, dir)
+	{
+        return this.data.sort(this._sortDataCB(sort, dir));
 	}
 };
