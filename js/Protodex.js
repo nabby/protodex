@@ -32,7 +32,7 @@ Protodex.App.prototype = {
 		var fields = this.data.getFields();
 
 		// hi lushi
-		// this.data.sortData();
+		console.log('SORTDATA LNAME', this.data.sortData("lname"));
 
 		this.ui.fieldPicker(fields);
 		this.ui.switchMode(2);
