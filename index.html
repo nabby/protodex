@@ -3,15 +3,19 @@
 <title>protodex</title>
 <link rel="stylesheet" type="text/css" href="css/protodex.css">
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
 <script type="text/javascript" src="js/jquery.csv-0.71.js"></script>
 <script type="text/javascript" src="js/Protodex.js"></script>
 <script type="text/javascript" src="js/Protodex.Data.js"></script>
 <script type="text/javascript" src="js/Protodex.UI.js"></script>
 <script type="text/javascript">
 $().ready(function() {
+	// create Protodex.App
+	var app = new Protodex.App($('#container'));
 });
 
 // bindings
+/*
 $(document).on('submit', '#import form', function(e) {
 	e.preventDefault();
 
@@ -23,23 +27,29 @@ $(document).on('submit', '#import form', function(e) {
 	var pd = new Protodex.Data(csvText);
 	console.log('DATA', pd);
 });
-
+*/
 
 </script>
 </head>
 <body class="init">
 
-<h1>protodex</h1>
+<div id="container">
+	<div class="dialog splash">
+		<h1>protodex</h1>
+	
+		<button data-act="importMode">import CSV data</button>
+	</div>
 
-<div id="import">
-	<form>
-	<textarea name="csv" rows="20" cols="60"></textarea>
-	<br>
-	<input type="submit" value="import">
-	</form>
-</div>
+	<div class="dialog import">
+		<form data-act="import">
+		<textarea name="csv" rows="20" cols="60"></textarea>
+		<br>
+		<input type="submit" value="import">
+		</form>
+	</div>
 
-<div id="display">
+	<div class="display">
+	</div>
 </div>
 
 </body>

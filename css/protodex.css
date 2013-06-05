@@ -1,6 +1,52 @@
 BODY {
-  font: 12pt helvetica,arial,sans-serif;
-  background: #fff;
-  color: #666;
+	font: 12pt 'myriad pro',helvetica,arial,sans-serif;
+	background: #fff;
+	color: #666;
+	margin: 0;
+	padding: 0;
+	background: #ccc;
 }
 
+#container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+#container>DIV {
+	display: none
+	
+}
+
+.dialog {
+	position: absolute;
+	box-sizing: border-box;
+	top: 50%;
+	left: 50%;
+	width: 500px;
+	height: 300px;
+	margin: -150px -250px;
+	padding: 30px 25px;
+	border: 1px solid #e5e5e5;
+	border-radius: 12px;
+	background: #fff;
+	box-shadow: 1px 2px 8px rgba(0,0,0,0.25);
+	text-align: center;
+}
+
+.dialog.splash {
+	width: 500px;
+	height: 300px;
+	margin: -150px -250px;
+}
+
+.dialog.import {
+	width: 800px;
+	height: 400px;
+	margin: -200px -400px;
+}

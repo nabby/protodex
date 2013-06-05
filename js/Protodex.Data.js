@@ -1,6 +1,8 @@
 // Protodex.Data constructor
-Protodex.Data = function(text) 
+Protodex.Data = function(app, text) 
 {
+	this.app = app;
+
 	if (text)
 		this.importCsv(text);
 	else
@@ -9,6 +11,7 @@ Protodex.Data = function(text)
 
 // Protodex.Data methods
 Protodex.Data.prototype = {
+	app:		null,
 	data:		null,
 
 	/*!\brief	imports CSV text into data
