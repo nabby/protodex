@@ -59,6 +59,15 @@ $(document).on('submit', '#import form', function(e) {
 		<form data-act="import">
 		<textarea name="csv" rows="20" cols="60"></textarea>
 		<br>
+		<input type="submit" value="continue">
+		</form>
+	</div>
+
+	<div class="dialog picker">
+		<h2>Pick which fields you'd like to keep.</h2>
+		
+		<form class="fieldPicker" data-act="fieldPicker">
+		<ul class="fields"></ul>
 		<input type="submit" value="import">
 		</form>
 	</div>

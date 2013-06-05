@@ -4,14 +4,11 @@ Protodex.UI = function (app, $el)
 	this.app = app;
 	this.$el = $el;
 	
-	this._bind();
-	
-	this.switchMode(0)
-	
+	this._bind();	
 };
 
 Protodex.UI.prototype = {
-	MODES:		['splash', 'import', 'display'],
+	MODES:		['splash', 'import', 'picker', 'display'],
 	app:		null,
 	$el:		null,
 	curMode:	null,
@@ -21,7 +18,6 @@ Protodex.UI.prototype = {
 		this.$el
 			.on('click', 'BUTTON', scopeC(this._clickCb, this))
 			.on('submit', 'FORM', scopeC(this._submitCb, this));
-			
 	},
 	
 	_clickCb: function (e)
@@ -48,7 +44,23 @@ Protodex.UI.prototype = {
 			var csv = $target.find('[name=csv]').val();
 			this.app.dataImport(csv);
 			break;
+		case 'fieldPicker':
+			break;
 		}
+	},
+	
+	fieldPicker: function (fields)
+	{
+		var $form = this.$el.find('FORM.fieldPicker');
+		var $ul = $form.find('ul');
+		var str = '';
+
+		for (var i=0; i< fields.length; i++) {
+			str += '<li><input type="checkbox" name="' + fields[i] + '"><' + fields[i] + '</li>';
+		}
+		
+		$ul.html(str);
+console.log(fields, $ul);
 	},
 	
 	switchMode: function (idx)

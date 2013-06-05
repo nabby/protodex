@@ -14,6 +14,9 @@ Protodex.App = function ($el)
 	
 	// create Data
 	this.data = new Protodex.Data(this);
+
+	// initialize	
+	this.ui.switchMode(0)
 };
 
 
@@ -26,6 +29,12 @@ Protodex.App.prototype = {
 	{
 		this.data.importCsv(csv);
 		
-		console.log(this.data.getFields());
+		var fields = this.data.getFields();
+
+		// hi lushi
+		// this.data.sortData();
+
+		this.ui.fieldPicker(fields);
+		this.ui.switchMode(2);
 	}
 };
