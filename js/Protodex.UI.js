@@ -78,18 +78,24 @@ Protodex.UI.prototype = {
 		var $tbody = this.$el.find('.display TABLE TBODY');
 
 		// print out header
-		for (var i=0, l=data.length; i<l; i++) {
-			str += '<tr>';
-			for (var j=0; j<fields.length; j++) {
-				str += '<th><a href="#">' + fields[j] + '</a></th>';
-			}
-			str += '</tr>';
-		}
-		
+        str += '<tr>';
+        for (var j=0; j<fields.length; j++) {
+            str += '<th><a href="#">' + fields[j] + '</a></th>';
+        }
+        str += '</tr>';
+
 		$thead.html(str);
-		
+
 		var str = '';
-		// print out body
+        for (var i=0; i<data.length; i++) {
+            str += '<tr>';
+            for (var k; k<fields.length; k++) {
+                str += '<td>' + data[i][k] + '</td>';
+            }
+            str += '</tr>';
+        }
+
+        $thead.html(str);
 	},
 	
 	switchMode: function (idx)
