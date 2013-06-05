@@ -12,7 +12,7 @@ BODY {
 	top: 0;
 	left: 0;
 	margin: 0;
-	padding: 0;
+	padding: 25px;
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
@@ -20,7 +20,6 @@ BODY {
 
 #container>DIV {
 	display: none
-	
 }
 
 .dialog {
@@ -55,3 +54,30 @@ BODY {
 	list-style: none;
 	padding: 0;
 }
+
+.display {
+	width: 80%;
+	box-sizing: border-box;
+	padding: 10px 25px;
+	background-color: #fff;
+	border-radius: 12px;
+}
+
+.display TABLE {
+	border-collapse: collapse;
+}
+
+.display TABLE TH, .display TABLE TD {
+	width: 100px;
+	padding: 5px;
+	border-top: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-right: 1px dotted #999;
+	border-bottom: 1px dotted #999;
+}
+
+.display TABLE TH {
+	background-color: #ccc;
+	border-right-color: #fff;
+}
+
