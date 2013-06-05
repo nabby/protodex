@@ -50,3 +50,8 @@ BODY {
 	height: 400px;
 	margin: -200px -400px;
 }
+
+.dialog.picker UL {
+	list-style: none;
+	padding: 0;
+}

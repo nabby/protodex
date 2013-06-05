@@ -36,5 +36,14 @@ Protodex.App.prototype = {
 
 		this.ui.fieldPicker(fields);
 		this.ui.switchMode(2);
+	},
+	
+	dataTrim: function (fields)
+	{
+		this.data.trim(fields)
+		
+		this.ui.display(this.data);
+		
+		this.ui.switchMode(3);
 	}
 };

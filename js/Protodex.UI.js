@@ -45,6 +45,13 @@ Protodex.UI.prototype = {
 			this.app.dataImport(csv);
 			break;
 		case 'fieldPicker':
+			var d = $target.serializeArray();
+			var fields = [];
+			for (var i=0; i<d.length; i++) {
+				fields.push(d[i].name);
+			}
+
+			this.app.dataTrim(fields);
 			break;
 		}
 	},
@@ -56,11 +63,33 @@ Protodex.UI.prototype = {
 		var str = '';
 
 		for (var i=0; i< fields.length; i++) {
-			str += '<li><input type="checkbox" name="' + fields[i] + '"><' + fields[i] + '</li>';
+			str += '<li><input type="checkbox" name="' + fields[i] + '">' + fields[i] + '</li>';
 		}
 		
 		$ul.html(str);
-console.log(fields, $ul);
+	},
+	
+	display: function (dataObj)
+	{
+		var data = dataObj.data;
+		var fields = dataObj.getFields();
+		var str = '';
+		var $thead = this.$el.find('.display TABLE THEAD');
+		var $tbody = this.$el.find('.display TABLE TBODY');
+
+		// print out header
+		for (var i=0, l=data.length; i<l; i++) {
+			str += '<tr>';
+			for (var j=0; j<fields.length; j++) {
+				str += '<th><a href="#">' + fields[j] + '</a></th>';
+			}
+			str += '</tr>';
+		}
+		
+		$thead.html(str);
+		
+		var str = '';
+		// print out body
 	},
 	
 	switchMode: function (idx)
