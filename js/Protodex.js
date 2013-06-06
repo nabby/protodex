@@ -31,19 +31,23 @@ Protodex.App.prototype = {
 		
 		var fields = this.data.getFields();
 
-		// hi lushi
-		console.log('SORTDATA LNAME', this.data.sortData("lname"));
-
 		this.ui.fieldPicker(fields);
 		this.ui.switchMode(2);
 	},
 	
 	dataTrim: function (fields)
 	{
-		this.data.trim(fields)
+		this.data.trim(fields);
 		
 		this.ui.display(this.data);
 		
 		this.ui.switchMode(3);
-	}
+	},
+
+    dataSort: function (sort, dir)
+    {
+        this.data.sortData(sort, dir);
+
+        this.ui.display(this.data);
+    }
 };

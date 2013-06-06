@@ -12,12 +12,14 @@ Protodex.UI.prototype = {
 	app:		null,
 	$el:		null,
 	curMode:	null,
+    sortDir:    null,
 	
 	_bind: function ()
 	{
 		this.$el
 			.on('click', 'BUTTON', scopeC(this._clickCb, this))
-			.on('submit', 'FORM', scopeC(this._submitCb, this));
+            .on('click', 'A', scopeC(this._clickCb, this))
+            .on('submit', 'FORM', scopeC(this._submitCb, this));
 	},
 	
 	_clickCb: function (e)
@@ -29,6 +31,11 @@ Protodex.UI.prototype = {
 		case 'importMode':
 			this.switchMode(1);
 			break;
+        case 'dataSort':
+            this.sortDir = (this.sortDir + 1) % 2;
+            var dir = this.sortDir === 1 ? 'ASC' : 'DSC';
+            this.app.dataSort($target.context.innerText, dir);
+            break;
 		}
 	},
 	
@@ -80,7 +87,7 @@ Protodex.UI.prototype = {
 		// print out header
         str += '<tr>';
         for (var j=0; j<fields.length; j++) {
-            str += '<th><a href="#">' + fields[j] + '</a></th>';
+            str += '<th><a href="#" data-act="dataSort">' + fields[j] + '</a></th>';
         }
         str += '</tr>';
 
