@@ -1,5 +1,5 @@
 // Protodex.Data constructor
-Protodex.Data = function(app, text) 
+Protodex.Data = function(app, text)
 {
 	this.app = app;
 
@@ -19,7 +19,14 @@ Protodex.Data.prototype = {
 	 */
 	importCsv: function(text)
 	{
-		this.data = $.csv.toObjects(text);
+		var data = $.csv.toObjects(text);
+        this.data = [];
+        for(var i=0, l=data.length; i<l; i++) {
+            var record = new Protodex.Record(data[i]);
+            this.data.push(record);
+            dataIndex.appendIndex(record.id);
+        }
+
 	},
 
 	/*!\brief	returns an array of available fields in the CSV file
@@ -28,7 +35,7 @@ Protodex.Data.prototype = {
 	getFields: function()
 	{
         var fields = [];
-        for(var f in this.data[0]) fields.push(f);
+        for(var f in this.data[0].data) fields.push(f);
         return fields;
 	},
 
@@ -41,11 +48,11 @@ Protodex.Data.prototype = {
         var fieldsToDelete = fields.filter(function (f) {   // diff btwn all fields and fields to keep are fields to delete
                 return fieldsToKeep.indexOf(f) == -1;
             });
-        for(var i=0, l=this.data.length; i<l; i++) {
-            for(var j=0, m=fieldsToDelete.length; j<m; j++)  {
-                delete this.data[i][fieldsToDelete[j]];
-            }
+
+        for (var i=0, l=this.data.length; i<l; i++){
+            this.data[i].trim(fieldsToDelete);
         }
+
 	},
 
 	/*!\brief	case-insensitive, in-place sorting of data
@@ -57,28 +64,42 @@ Protodex.Data.prototype = {
 
     _sortDataCB: function(sort, dir)     // callback function for sort method
     {
-        var order = dir === 'DSC' ? -1 : 1;
+        var order = dir == 'DSC' ? -1 : 1;
         return function (o, p) {
             var a, b;
-            if (typeof o === 'object' && typeof p === 'object' && o && p) {
-                a = o[sort].toLowerCase();
-                b = p[sort].toLowerCase();
+            if (o && p) {
+                a = o.data[sort].toLowerCase();
+                b = p.data[sort].toLowerCase();
                 if (a === b) {
                     return 0;
                 } else {
                     return (a < b ? -1 : 1) * order;
                 }
-            } else {
-                throw {
-                    name: 'Error',
-                    message: 'Expected an object when sorting by ' + sort
-                };
             }
         };
     },
 
-    sortData: function(sort, dir)
+    sortData: function(sort, dir) //NEED TO FIND BUG
 	{
         return this.data.sort(this._sortDataCB(sort, dir));
-	}
+	},
+
+    loadData: function()
+    {
+        this.data = [];
+        var index = dataIndex.loadIndex();
+        if (index) {
+            for (var i = 0, l = index.length; i<l; i++) {
+                var record = new Protodex.Record();
+                record.load(index[i]);
+                this.data.push(record);
+            }
+        }
+    },
+
+    clearData: function()
+    {
+        localStorage.clear();
+        this.data = null;
+    }
 };

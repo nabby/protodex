@@ -7,6 +7,8 @@
 <script type="text/javascript" src="js/jquery.csv-0.71.js"></script>
 <script type="text/javascript" src="js/Protodex.js"></script>
 <script type="text/javascript" src="js/Protodex.Data.js"></script>
+<script type="text/javascript" src="js/Protodex.Record.js"></script>
+<script type="text/javascript" src="js/dataIndex.js"></script>
 <script type="text/javascript" src="js/Protodex.UI.js"></script>
 <script type="text/javascript">
 $().ready(function() {
@@ -51,7 +53,7 @@ $(document).on('submit', '#import form', function(e) {
 <div id="container">
 	<div class="dialog splash">
 		<h1>protodex</h1>
-	
+
 		<button data-act="importMode">import CSV data</button>
 	</div>
 
@@ -65,7 +67,7 @@ $(document).on('submit', '#import form', function(e) {
 
 	<div class="dialog picker">
 		<h2>Pick which fields you'd like to keep.</h2>
-		
+
 		<form class="fieldPicker" data-act="fieldPicker">
 		<ul class="fields"></ul>
 		<input type="submit" value="import">
@@ -74,7 +76,7 @@ $(document).on('submit', '#import form', function(e) {
 
 	<div class="display">
 		<h1>Protodex</h1>
-		
+
 		<table>
 			<thead></thead>
 			<tbody></tbody>

@@ -3,8 +3,8 @@ Protodex.UI = function (app, $el)
 {
 	this.app = app;
 	this.$el = $el;
-	
-	this._bind();	
+
+	this._bind();
 };
 
 Protodex.UI.prototype = {
@@ -13,7 +13,8 @@ Protodex.UI.prototype = {
 	$el:		null,
 	curMode:	null,
     sortDir:    null,
-	
+    sortBy: 	null,
+
 	_bind: function ()
 	{
 		this.$el
@@ -21,31 +22,36 @@ Protodex.UI.prototype = {
             .on('click', 'A', scopeC(this._clickCb, this))
             .on('submit', 'FORM', scopeC(this._submitCb, this));
 	},
-	
+
 	_clickCb: function (e)
 	{
 		var $target = $(e.currentTarget);
 		var act = $target.data('act');
-		
+
 		switch (act) {
 		case 'importMode':
 			this.switchMode(1);
 			break;
         case 'dataSort':
-            this.sortDir = (this.sortDir + 1) % 2;
+        	if(this.sortBy != $target.context.innerText) {
+        		this.sortDir = 1;
+        	} else {
+        		this.sortDir = (this.sortDir + 1) % 2
+        	}
             var dir = this.sortDir === 1 ? 'ASC' : 'DSC';
             this.app.dataSort($target.context.innerText, dir);
+            this.sortBy = $target.context.innerText;
             break;
-		}
+        }
 	},
-	
+
 	_submitCb: function (e)
 	{
 		var $target = $(e.currentTarget);
 		var act = $target.data('act');
-		
+
 		e.preventDefault();
-		
+
 		switch (act) {
 		case 'import':
 			var csv = $target.find('[name=csv]').val();
@@ -62,7 +68,7 @@ Protodex.UI.prototype = {
 			break;
 		}
 	},
-	
+
 	fieldPicker: function (fields)
 	{
 		var $form = this.$el.find('FORM.fieldPicker');
@@ -72,14 +78,14 @@ Protodex.UI.prototype = {
 		for (var i=0; i< fields.length; i++) {
 			str += '<li><input type="checkbox" name="' + fields[i] + '">' + fields[i] + '</li>';
 		}
-		
+
 		$ul.html(str);
 	},
-	
-	display: function (dataObj)
+
+	display: function (protodexData)
 	{
-		var data = dataObj.data;
-		var fields = dataObj.getFields();
+		var data = protodexData.data;
+		var fields = protodexData.getFields();
 		var str = '';
 		var $thead = this.$el.find('.display TABLE THEAD');
 		var $tbody = this.$el.find('.display TABLE TBODY');
@@ -95,16 +101,17 @@ Protodex.UI.prototype = {
 
 		var str = '';
         for (var i=0; i<data.length; i++) {
-            str += '<tr>';
+
+            str += '<tr data-id=' + data[i].id + '>';
             for (var k=0; k<fields.length; k++) {
-                str += '<td>' + data[i][fields[k]] + '</td>';
+                str += '<td>' + data[i].data[fields[k]] + '</td>';
             }
             str += '</tr>';
         }
 
         $tbody.html(str);
 	},
-	
+
 	switchMode: function (idx)
 	{
 		// DOM
