@@ -97,7 +97,7 @@ Protodex.Data.prototype = {
         }
     },
 
-    clearData: function()
+    clear: function()
     {
         localStorage.clear();
         this.data = null;

@@ -42,6 +42,9 @@ Protodex.UI.prototype = {
             this.app.dataSort($target.context.innerText, dir);
             this.sortBy = $target.context.innerText;
             break;
+        case 'clear':
+        	this.app.dataClear();
+        	this.switchMode(0);
         }
 	},
 

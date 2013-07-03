@@ -15,18 +15,20 @@ Protodex.App = function ($el)
 	// create Data
 	this.data = new Protodex.Data(this);
 
-	// initialize
-	this.ui.switchMode(0)
-
-	// clear localStorage
-	this.data.clearData();
+	// display data if stored in localStorage, else initialize
+	if (localStorage.length > 0) {
+		this.data.loadData();
+		this.ui.display(this.data);
+		this.ui.switchMode(3);
+	} else {
+		this.ui.switchMode(0)
+	}
 };
 
 
 Protodex.App.prototype = {
 	data: 	null,
 	ui:		null,
-	d:		null,
 
 	dataImport: function (csv)
 	{
@@ -54,5 +56,10 @@ Protodex.App.prototype = {
         this.data.sortData(sort, dir);
 
         this.ui.display(this.data);
+    },
+
+    dataClear: function ()
+    {
+    	this.data.clear();
     }
 };
