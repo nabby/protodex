@@ -44,7 +44,24 @@ Protodex.UI.prototype = {
             break;
         case 'clear':
         	this.app.dataClear();
-        	this.switchMode(0);
+        	this.switchMode(0); //Should this be in Protodex.js?
+            break;
+        case 'save':
+            var $fields = this._getFields();
+            var app = this.app;
+            $("tbody > tr").each(function(){
+                var $id = $(this).data('id').toString();
+                var $data = {};
+                for (var i=0, l=$fields.length; i<l; i++){
+                    var $text = $(this).context.children[i].innerText;
+                    if ($text && $text.charCodeAt(0) != 10) $data[$fields[i]] = $text;
+                }
+
+                app.dataSave($id, $data)
+            });
+            this.display(this.app.data);
+            this.switchMode(3);
+            break;
         }
 	},
 
@@ -71,6 +88,16 @@ Protodex.UI.prototype = {
 			break;
 		}
 	},
+
+    _getFields: function()
+    {
+        var $fields = []
+        var $thNodes = $("thead > tr > th")
+        for (var i=0, l=$thNodes.length; i<l; i++) {
+            $fields.push($thNodes[i].innerText);
+        };
+        return $fields;
+    },
 
 	fieldPicker: function (fields)
 	{
@@ -107,7 +134,11 @@ Protodex.UI.prototype = {
 
             str += '<tr data-id=' + data[i].id + '>';
             for (var k=0; k<fields.length; k++) {
-                str += '<td>' + data[i].data[fields[k]] + '</td>';
+                var cell = "";
+                var text = data[i].data[fields[k]]
+                if (text) cell = text;
+
+                str += '<td contenteditable="true">' + cell + '</td>';
             }
             str += '</tr>';
         }

@@ -35,7 +35,17 @@ Protodex.Data.prototype = {
 	getFields: function()
 	{
         var fields = [];
-        for(var f in this.data[0].data) fields.push(f);
+        var fieldsLength = 0;
+        var recordInd; //index of record with most fields
+        for (var i=0, l=this.data.length; i<l; i++){
+            var length = Object.keys(this.data[i].data).length
+            if (length > fieldsLength) {
+                fieldsLength = length;
+                recordInd = i;
+            }
+        }
+
+        for(var f in this.data[recordInd].data) fields.push(f);
         return fields;
 	},
 
@@ -68,8 +78,8 @@ Protodex.Data.prototype = {
         return function (o, p) {
             var a, b;
             if (o && p) {
-                a = o.data[sort].toLowerCase();
-                b = p.data[sort].toLowerCase();
+                a = o.data[sort] ? o.data[sort].toLowerCase() : "";
+                b = p.data[sort] ? p.data[sort].toLowerCase() : "";
                 if (a === b) {
                     return 0;
                 } else {
@@ -95,6 +105,25 @@ Protodex.Data.prototype = {
                 this.data.push(record);
             }
         }
+    },
+
+    save: function(id, data)
+    {
+        var record = new Protodex.Record();
+        record.update(id, data);
+        this.loadData();
+    },
+
+    remove: function(id)
+    {
+        var record = new Protodex.Record();
+        if (dataIndex.checkInIndex(id)) {
+            record.remove(id);
+            dataIndex.deleteFromIndex(id);
+        } else {
+            throw new Error("Record not found.");
+        }
+        this.loadData();
     },
 
     clear: function()

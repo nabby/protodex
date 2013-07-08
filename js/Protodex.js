@@ -58,6 +58,15 @@ Protodex.App.prototype = {
         this.ui.display(this.data);
     },
 
+    dataSave: function(id, data)
+    {
+        if (Object.keys(data).length) {
+            this.data.save(id, data);
+        } else {
+            this.data.remove(id);
+        }
+    },
+
     dataClear: function ()
     {
     	this.data.clear();
