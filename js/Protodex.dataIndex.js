@@ -1,4 +1,6 @@
-var dataIndex = {
+If (!Protodex) var Protodex = {};
+
+Protodex.dataIndex = {
 	_NAME: 'dataIndex',
 
 	appendIndex: function(id) //adds Id to dataIndex
