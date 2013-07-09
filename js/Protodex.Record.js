@@ -1,3 +1,5 @@
+if (!Protodex) var Protodex = {};
+
 Protodex.Record = function(obj)
 {
 	if (obj) this._create(obj);

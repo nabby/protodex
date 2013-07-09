@@ -1,3 +1,5 @@
+if (!Protodex) var Protodex = {};
+
 // UI goes here
 Protodex.UI = function (app, $el)
 {

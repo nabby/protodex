@@ -1,24 +1,24 @@
-If (!Protodex) var Protodex = {};
+if (!Protodex) var Protodex = {};
 
 Protodex.dataIndex = {
-	_NAME: 'dataIndex',
+	_NAME: 'Protodex.dataIndex',
 
-	appendIndex: function(id) //adds Id to dataIndex
+	appendIndex: function(id) //adds Id to Protodex.dataIndex
 	{
-		var ind = dataIndex.loadIndex() || []; //sets dataIndex to empty array if it doesn't exist yet
+		var ind = Protodex.dataIndex.loadIndex() || []; //sets Protodex.dataIndex to empty array if it doesn't exist yet
 		ind.push(id);
-		localStorage.setItem(dataIndex._NAME, JSON.stringify(ind));
+		localStorage.setItem(Protodex.dataIndex._NAME, JSON.stringify(ind));
 	},
 
-	loadIndex: function() //retrieves dataIndex and decodes it into an array
+	loadIndex: function() //retrieves Protodex.dataIndex and decodes it into an array
 	{
-		var indexJ = localStorage.getItem(dataIndex._NAME);
+		var indexJ = localStorage.getItem(Protodex.dataIndex._NAME);
 		return JSON.parse(indexJ);
 	},
 
-	checkInIndex: function(id) //checks if an Id already exists in dataIndex
+	checkInIndex: function(id) //checks if an Id already exists in Protodex.dataIndex
 	{
-		var ind = dataIndex.loadIndex();
+		var ind = Protodex.dataIndex.loadIndex();
 		if (ind) {
 			for (var i = 0; i < ind.length; i++) {
 				if (ind[i] === id) {
@@ -29,15 +29,15 @@ Protodex.dataIndex = {
 		return false;
 	},
 
-	deleteFromIndex: function(id) //removes Id from dataIndex when record is deleted
+	deleteFromIndex: function(id) //removes Id from Protodex.dataIndex when record is deleted
 	{
-		var ind = dataIndex.loadIndex();
+		var ind = Protodex.dataIndex.loadIndex();
 		for (var i = 0; i < ind.length; i++) {
 			if (ind[i] == id) {
 				ind.splice(i, 1);
 				break;
 			}
 		}
-		localStorage.setItem(dataIndex._NAME, JSON.stringify(ind));
+		localStorage.setItem(Protodex.dataIndex._NAME, JSON.stringify(ind));
 	}
 }

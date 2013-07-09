@@ -1,3 +1,5 @@
+if (!Protodex) var Protodex = {};
+
 // Protodex.Data constructor
 Protodex.Data = function(app, text)
 {
@@ -7,10 +9,13 @@ Protodex.Data = function(app, text)
 		this.importCsv(text);
 	else
 		this.data = [];
+
+    this.index = Protodex.dataIndex;
 };
 
 // Protodex.Data methods
 Protodex.Data.prototype = {
+    index:      null,
 	app:		null,
 	data:		null,
 
@@ -24,7 +29,7 @@ Protodex.Data.prototype = {
         for(var i=0, l=data.length; i<l; i++) {
             var record = new Protodex.Record(data[i]);
             this.data.push(record);
-            dataIndex.appendIndex(record.id);
+            this.index.appendIndex(record.id);
         }
 
 	},
@@ -103,7 +108,7 @@ Protodex.Data.prototype = {
     loadData: function()
     {
         this.data = [];
-        var index = dataIndex.loadIndex();
+        var index = this.index.loadIndex();
         if (index) {
             for (var i = 0, l = index.length; i<l; i++) {
                 var record = new Protodex.Record();
@@ -124,7 +129,7 @@ Protodex.Data.prototype = {
             var data = idData[id];
             var dataLen = Object.keys(data).length;
 
-            if (id.charCodeAt(0) == 97) {   // if ID is a placeholder (i.e new line)
+            if (id[0] == "a") {   // if ID is a placeholder (i.e new line)
                 if (dataLen) this._newRecord(data); //create new record if there's data
             } else {                        // existing data
                 id = id.toString();
@@ -142,7 +147,7 @@ Protodex.Data.prototype = {
     _newRecord: function(data)
     {
         var record = new Protodex.Record(data);
-        dataIndex.appendIndex(record.id);
+        this.index.appendIndex(record.id);
     },
 
     _update: function(id, data)
@@ -154,9 +159,9 @@ Protodex.Data.prototype = {
     _remove: function(id)
     {
         var record = new Protodex.Record();
-        if (dataIndex.checkInIndex(id)) {
+        if (this.index.checkInIndex(id)) {
             record.remove(id);
-            dataIndex.deleteFromIndex(id);
+            this.index.deleteFromIndex(id);
         } else {
             throw new Error("Record not found.");
         }
