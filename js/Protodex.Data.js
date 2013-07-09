@@ -62,7 +62,6 @@ Protodex.Data.prototype = {
         for (var i=0, l=this.data.length; i<l; i++){
             this.data[i].trim(fieldsToDelete);
         }
-
 	},
 
 	/*!\brief	case-insensitive, in-place sorting of data
@@ -107,14 +106,40 @@ Protodex.Data.prototype = {
         }
     },
 
-    save: function(id, data)
+    save: function(idData)
+    {
+        for (var id in idData) {
+            var data = idData[id];
+            var dataLen = Object.keys(data).length;
+
+            if (id.charCodeAt(0) == 97) {   // if ID is a placeholder (i.e new line)
+                if (dataLen) this._newRecord(data); //create new record if there's data
+            } else {                        // existing data
+                id = id.toString();
+                if (dataLen) {
+                    this._write(id, data);
+                } else {
+                    this._remove(id);
+                }
+            }
+        }
+    },
+
+    _newRecord: function(data)
+    {
+        var record = new Protodex.Record(data);
+        dataIndex.appendIndex(record.id);
+        this.loadData();
+    },
+
+    _write: function(id, data)
     {
         var record = new Protodex.Record();
         record.update(id, data);
         this.loadData();
     },
 
-    remove: function(id)
+    _remove: function(id)
     {
         var record = new Protodex.Record();
         if (dataIndex.checkInIndex(id)) {

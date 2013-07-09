@@ -44,24 +44,38 @@ Protodex.UI.prototype = {
             break;
         case 'clear':
         	this.app.dataClear();
-        	this.switchMode(0); //Should this be in Protodex.js?
             break;
         case 'save':
             var $fields = this._getFields();
-            var app = this.app;
+            var idData = {};
+            var counter = 0
             $("tbody > tr").each(function(){
-                var $id = $(this).data('id').toString();
+                var $id = $(this).data('id');
+                if ($id == null) {  // assign placeholder id if none exist (i.e. new record)
+                    $id = "a" + counter;
+                    counter++;
+                }
+
                 var $data = {};
                 for (var i=0, l=$fields.length; i<l; i++){
                     var $text = $(this).context.children[i].innerText;
                     if ($text && $text.charCodeAt(0) != 10) $data[$fields[i]] = $text;
                 }
 
-                app.dataSave($id, $data)
+                idData[$id] = $data;
             });
-            this.display(this.app.data);
-            this.switchMode(3);
+
+            this.app.dataSave(idData);
             break;
+        case 'newRow':
+            var $tbody = this.$el.find('.display TABLE TBODY');
+            var $fields = this._getFields();
+
+            var str = '<tr>';
+            for (var i=0, l=$fields.length; i<l; i++) str += '<td contenteditable="true">&#10;</td>';
+            str += '</tr>';
+
+            $tbody.append(str);
         }
 	},
 
@@ -89,7 +103,7 @@ Protodex.UI.prototype = {
 		}
 	},
 
-    _getFields: function()
+    _getFields: function() //TODO: incorporate $el?
     {
         var $fields = []
         var $thNodes = $("thead > tr > th")

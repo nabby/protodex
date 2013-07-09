@@ -37,6 +37,7 @@ Protodex.App.prototype = {
 		var fields = this.data.getFields();
 
 		this.ui.fieldPicker(fields);
+
 		this.ui.switchMode(2);
 	},
 
@@ -58,17 +59,17 @@ Protodex.App.prototype = {
         this.ui.display(this.data);
     },
 
-    dataSave: function(id, data)
+    dataSave: function (idData)
     {
-        if (Object.keys(data).length) {
-            this.data.save(id, data);
-        } else {
-            this.data.remove(id);
-        }
+        this.data.save(idData);
+
+        this.ui.display(this.data);
     },
 
     dataClear: function ()
     {
     	this.data.clear();
-    }
+
+        this.ui.switchMode(0);
+    },
 };
