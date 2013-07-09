@@ -29,7 +29,7 @@ Protodex.Record.prototype = {
 		this.id = this._hash(this._incrSeq());
 	},
 
-	_populate: function(obj) //populate record object //NEED TO MODIFY TO ACCOMMODATE BOTH CREATE AND UPDATE
+	_populate: function(obj) //populate record object
 	{
 		this.data = obj;
 	},
@@ -46,9 +46,9 @@ Protodex.Record.prototype = {
 		this._write();
 	},
 
-	_reset: function()
+	_reset: function()	//resets id and data
 	{
-		this.id = null;	//resets id and data
+		this.id = null;
 		this.data = null;
 	},
 

@@ -32,6 +32,7 @@ Protodex.UI.prototype = {
 		case 'importMode':
 			this.switchMode(1);
 			break;
+
         case 'dataSort':
         	if(this.sortBy != $target.context.innerText) {
         		this.sortDir = 1;
@@ -42,14 +43,16 @@ Protodex.UI.prototype = {
             this.app.dataSort($target.context.innerText, dir);
             this.sortBy = $target.context.innerText;
             break;
+
         case 'clear':
         	this.app.dataClear();
             break;
+
         case 'save':
             var $fields = this._getFields();
             var idData = {};
             var counter = 0
-            $("tbody > tr").each(function(){
+            this.$el.find('.display TABLE TBODY TR').each(function(){
                 var $id = $(this).data('id');
                 if ($id == null) {  // assign placeholder id if none exist (i.e. new record)
                     $id = "a" + counter;
@@ -67,6 +70,7 @@ Protodex.UI.prototype = {
 
             this.app.dataSave(idData);
             break;
+
         case 'newRow':
             var $tbody = this.$el.find('.display TABLE TBODY');
             var $fields = this._getFields();
@@ -91,6 +95,7 @@ Protodex.UI.prototype = {
 			var csv = $target.find('[name=csv]').val();
 			this.app.dataImport(csv);
 			break;
+
 		case 'fieldPicker':
 			var d = $target.serializeArray();
 			var fields = [];
@@ -106,10 +111,12 @@ Protodex.UI.prototype = {
     _getFields: function() //TODO: incorporate $el?
     {
         var $fields = []
-        var $thNodes = $("thead > tr > th")
+        var $thNodes = this.$el.find('.display TABLE').find('th')
+
         for (var i=0, l=$thNodes.length; i<l; i++) {
             $fields.push($thNodes[i].innerText);
         };
+
         return $fields;
     },
 
@@ -128,7 +135,6 @@ Protodex.UI.prototype = {
 
 	display: function (protodexData)
 	{
-		var data = protodexData.data;
 		var fields = protodexData.getFields();
 		var str = '';
 		var $thead = this.$el.find('.display TABLE THEAD');
@@ -143,17 +149,18 @@ Protodex.UI.prototype = {
 
 		$thead.html(str);
 
-		var str = '';
+		// print out data in body
+        var data = protodexData.data;
+        var str = '';
+
         for (var i=0; i<data.length; i++) {
-
             str += '<tr data-id=' + data[i].id + '>';
-            for (var k=0; k<fields.length; k++) {
-                var cell = "";
-                var text = data[i].data[fields[k]]
-                if (text) cell = text;
 
+            for (var k=0; k<fields.length; k++) {
+                var cell = data[i].data[fields[k]] || '&#10;';
                 str += '<td contenteditable="true">' + cell + '</td>';
             }
+
             str += '</tr>';
         }
 

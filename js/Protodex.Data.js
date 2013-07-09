@@ -34,20 +34,25 @@ Protodex.Data.prototype = {
 	 */
 	getFields: function()
 	{
+        var ind = this._findRecordWithAllFields();
         var fields = [];
-        var fieldsLength = 0;
-        var recordInd; //index of record with most fields
-        for (var i=0, l=this.data.length; i<l; i++){
+        for(var f in this.data[ind].data) fields.push(f);
+        return fields;
+	},
+
+    _findRecordWithAllFields: function()
+    {
+        var fieldsNum = 0, ind;
+        for (var i=0, l=this.data.length; i<l; i++) {
             var length = Object.keys(this.data[i].data).length
-            if (length > fieldsLength) {
-                fieldsLength = length;
-                recordInd = i;
+            if (length > fieldsNum) {
+                fieldsNum = length;
+                ind = i;
             }
         }
 
-        for(var f in this.data[recordInd].data) fields.push(f);
-        return fields;
-	},
+        return ind;
+    },
 
 	/*!\brief	trims the data to just the specified fields
 	 * \param	fieldsToKeep		array of fields to keep
@@ -71,6 +76,11 @@ Protodex.Data.prototype = {
 	 *					'DSC': descending
 	 */
 
+    sortData: function(sort, dir)
+    {
+        return this.data.sort(this._sortDataCB(sort, dir));
+    },
+
     _sortDataCB: function(sort, dir)     // callback function for sort method
     {
         var order = dir == 'DSC' ? -1 : 1;
@@ -88,11 +98,8 @@ Protodex.Data.prototype = {
         };
     },
 
-    sortData: function(sort, dir) //NEED TO FIND BUG
-	{
-        return this.data.sort(this._sortDataCB(sort, dir));
-	},
-
+    /*!\brief   loads an array of record objects with localStorage data to this.data
+     */
     loadData: function()
     {
         this.data = [];
@@ -106,6 +113,11 @@ Protodex.Data.prototype = {
         }
     },
 
+    /*!\brief   creates, updates, or removes records upon save
+     * \param   idData      id and data(object)
+     *                      key: id
+     *                      value: data(object)
+     */
     save: function(idData)
     {
         for (var id in idData) {
@@ -117,26 +129,26 @@ Protodex.Data.prototype = {
             } else {                        // existing data
                 id = id.toString();
                 if (dataLen) {
-                    this._write(id, data);
+                    this._update(id, data);
                 } else {
                     this._remove(id);
                 }
             }
         }
+
+        this.loadData();
     },
 
     _newRecord: function(data)
     {
         var record = new Protodex.Record(data);
         dataIndex.appendIndex(record.id);
-        this.loadData();
     },
 
-    _write: function(id, data)
+    _update: function(id, data)
     {
         var record = new Protodex.Record();
         record.update(id, data);
-        this.loadData();
     },
 
     _remove: function(id)
@@ -148,9 +160,10 @@ Protodex.Data.prototype = {
         } else {
             throw new Error("Record not found.");
         }
-        this.loadData();
     },
 
+    /*!\brief   clears localStorage
+     */
     clear: function()
     {
         localStorage.clear();
